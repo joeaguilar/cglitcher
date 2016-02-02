@@ -1,0 +1,17 @@
+{
+  "name": "cglitcher",
+  "version": "1.0.0",
+  "description": "Glitch ur large images",
+  "main": "index.js",
+  "scripts": {
+    "install": "node-gyp rebuild"
+  },
+  "liscence": "MIT",
+  "dependencies": {
+    "bindings": "^1.2.1",
+    "express": "^4.13.4",
+    "nan": "^2.0.9",
+    "socket.io": "^1.4.4"
+  },
+  "gypfile": true
+}
