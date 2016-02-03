@@ -1,4 +1,4 @@
-# cglitcher
+# cGlitcher
 ======
 
 > Incoporating my C++ image editor into Node.js
@@ -17,10 +17,13 @@ Several files are included under server
 5. utils.js -> Dont use this
 
 
-+ directoryglitcher takes the arguments: `node /path/to/directoryglitcher.js /path/to/directory/ [effectargs]`
-+ directoryglitcherrandom takes the arguments: `node /path/to/directoryglitcherrandom.js /path/to/directory/`
-* oneimageglitcher takes the arguments: `node /path/to/oneimageglitcher.js /path/to/image.jpg [effectargs]`
-- socketioglitcher takes the arguments: `node /path/to/socketioglitcher` and go to localhost:1337
+directoryglitcher takes the arguments: `node /path/to/directoryglitcher.js /path/to/directory/ [effectargs]`
+
+directoryglitcherrandom takes the arguments: `node /path/to/directoryglitcherrandom.js /path/to/directory/`
+
+oneimageglitcher takes the arguments: `node /path/to/oneimageglitcher.js /path/to/image.jpg [effectargs]`
+
+socketioglitcher takes the arguments: `node /path/to/socketioglitcher` and go to localhost:1337
 
 
 The effects syntax work like this
