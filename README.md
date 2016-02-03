@@ -1,42 +1,34 @@
 # cglitcher
+======
 
-Incoporating my C++ image editor into Node.js
+> Incoporating my C++ image editor into Node.js
 
 A Node C++ addon gives you the power to leverage C++ to supercharge tasks. Put your Node in fast mode!
-
-This addon has a dependency on OpenCV so do this first
-``` brew install opencv```
+This addon has a dependency on OpenCV so do this first: `brew install opencv`
 you can also follow this guide [here](https://jjyap.wordpress.com/2014/05/24/installing-opencv-2-4-9-on-mac-osx-with-python-support/).
 
 
 Several files are included under server:
-  directoryglitcher.js
-  directoryglitcherrandom.js
-  oneimageglitcher.js
-  socketioglitcher.js
-  utils.js -> Dont use this
+1. directoryglitcher.js
+2. directoryglitcherrandom.js
+3. oneimageglitcher.js
+4. socketioglitcher.js
+5. utils.js -> Dont use this
 
-directoryglitcher takes the arguments:
- ```node /path/to/directoryglitcher.js /path/to/directory/ [effectargs]
-
-directoryglitcherrandom takes the arguments:
- ```node /path/to/directoryglitcherrandom.js /path/to/directory/
-
-oneimageglitcher takes the arguments:
-  ```node /path/to/oneimageglitcher.js /path/to/image.jpg [effectargs]
-
-socketioglitcher takes the arguments:
-  ```node /path/to/socketioglitcher
++ directoryglitcher takes the arguments: `node /path/to/directoryglitcher.js /path/to/directory/ [effectargs]`
++ directoryglitcherrandom takes the arguments: `node /path/to/directoryglitcherrandom.js /path/to/directory/`
+* oneimageglitcher takes the arguments: `node /path/to/oneimageglitcher.js /path/to/image.jpg [effectargs]`
+- socketioglitcher takes the arguments: `node /path/to/socketioglitcher` and go to localhost:1337
 
 
-Effects args work like this:
-1.) open square bracket   "["
-  1a.) number for order   "0"
-  2a.) colon              ":"
-  3a.) letter for effect  "A"
-   1b.) comma             ","
-   Additional arguments following the previous example
-2.) close square brack    "]"
+The effects syntax work like this
+1. open square bracket   "["
+  1.  number for order   "0"
+  2.  colon              ":"
+  3.  letter for effect  "A"
+   1. comma             ","
+   2. Additional arguments following the previous example
+2. close square brack    "]"
 
 Examples:
   [1:s,2:a,0:p,4:l]
@@ -60,7 +52,7 @@ Num | Order
 3   | 2 to 2
 
 
-Effect Map:
+Effect Map (nAmEs aRe cAsE SenSiTivE):
 
 Key | Name 
 --- | --- 
