@@ -8,12 +8,14 @@ This addon has a dependency on OpenCV so do this first: `brew install opencv`
 you can also follow this guide [here](https://jjyap.wordpress.com/2014/05/24/installing-opencv-2-4-9-on-mac-osx-with-python-support/).
 
 
-Several files are included under server:
+Several files are included under server
+
 1. directoryglitcher.js
 2. directoryglitcherrandom.js
 3. oneimageglitcher.js
 4. socketioglitcher.js
 5. utils.js -> Dont use this
+
 
 + directoryglitcher takes the arguments: `node /path/to/directoryglitcher.js /path/to/directory/ [effectargs]`
 + directoryglitcherrandom takes the arguments: `node /path/to/directoryglitcherrandom.js /path/to/directory/`
@@ -22,6 +24,7 @@ Several files are included under server:
 
 
 The effects syntax work like this
+
 1. open square bracket   "["
   1.  number for order   "0"
   2.  colon              ":"
@@ -31,9 +34,10 @@ The effects syntax work like this
 2. close square brack    "]"
 
 Examples:
-  [1:s,2:a,0:p,4:l]
-  [2:s,1:W]
-  [0:p]
+
+    [1:s,2:a,0:p,4:l]
+    [2:s,1:W]
+    [0:p]
 
 You can think of the order as holding two cups of water.
 When you run an effect, it places a filter on the first cup
@@ -42,7 +46,7 @@ the first cup and which is the second. Keep in mind only the
 information in the first cup is made into an image.
 
 
-Order Map:
+**Order Map**:
 
 Num | Order 
 --- | --- 
@@ -52,7 +56,7 @@ Num | Order
 3   | 2 to 2
 
 
-Effect Map (nAmEs aRe cAsE SenSiTivE):
+**Effect Map** _nAmEs aRe cAsE SenSiTivE_:
 
 Key | Name 
 --- | --- 
