@@ -1,4 +1,4 @@
-# cGlitcher
+cGlitcher
 ======
 
 > Incoporating my C++ image editor into Node.js
