@@ -41,13 +41,23 @@ function createObject(order) {
 }
 
 
-function verifyObject(object) {
-   object.effect (object.effect !== null ) ? 'g' : object.effect;
-   object.order (object.order !== null ) ? '1' : object.order;
-   
-
-
-
+function verifyOptions(obj) {
+  obj.effect = (obj.effect !== null ) ? 'g' : obj.effect;
+  obj.order  = (obj.order !== null ) ? '1' : obj.order;
+  obj.channel = ( !(obj.channel < 8) || !(obj.channel > 0) ) ? 0 : obj.channel;
+  obj.threshold = ( !(obj.threshold > 0) || !(obj.threshold < 256) ) ? 50 : obj.threshold;     
+  obj.depth = ( !(obj.depth > 0) || !(obj.depth < 256) ) ? 1.0 : obj.depth;     
+  obj.xspace = ( !(obj.xspace > 0) || !(obj.xspace < 256) ) ? 50 : obj.xspace;     
+  obj.yspace = ( !(obj.yspace > 0) || !(obj.yspace < 256) ) ? 50 : obj.yspace;     
+  obj.weight = ( !(obj.weight > 0) || !(obj.weight < 256) ) ? 50 : obj.weight;     
+  obj.stroke = ( !(obj.stroke > 0) || !(obj.stroke < 256) ) ? 50 : obj.stroke;     
+  if (isLSB()) {
+    // LSB architecture
+    obj.color =  ( !(obj.color > 0xFF000000) || !(obj.color < 0xFFFFFFFF) ) ? 0xFFFFFFFF : obj.color;
+  } else {
+    // MSB architecture
+    obj.color =  ( !(obj.color > 0x000000FF) || !(obj.color < 0xFFFFFFFF) ) ? 0xFFFFFFFF : obj.color;     
+  }
 }
 
 

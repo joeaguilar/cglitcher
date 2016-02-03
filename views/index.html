@@ -1,13 +1,15 @@
 <!doctype html>
 <html>
   <head>
-    <title>Socket.IO chat</title>
+    <title>Socket.IO Glitcher</title>
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
       body { font: 13px Helvetica, Arial; }
-      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+      form { background: rgba(0, 0, 0, .25); padding: 3px; position: fixed; bottom: 0; width: 100%; }
+      form > label { float: left; width:10%; height:2px; padding-top: 8px; }
+      form input { border: 0; padding: 10px; width: 76%; margin-right: .5%; }
       form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      label { font-size:14px; }
       #messages { list-style-type: none; margin: 0; padding: 0; }
       #messages li { padding: 5px 10px; }
       #messages li:nth-child(odd) { background: #eee; }
@@ -17,86 +19,137 @@
       #m{ width:80%;}
       #q{ background: #fefe51;}
       #s{ background: #e500f6;}
+      #queue { background: rgba(255, 255, 255, .5); position:absolute; width:100%; height: 100%; top:0; }
       .err { background: #ff0014;}
       .hidden {display: none;}
+      .stacked { display: inline-block; padding-bottom: 8px; padding-left: 6px; }
+      .stacked > label { float:left; width:100%; height:20px; vertical-align: 15px;}
     </style>
   </head>
   <body>
-    <ul id="messages"></ul>
-    <div id="canvasstats"></div>
-    <canvas id="ultros">Not supported</canvas>
-    <div id="toggle"><p>=</p></div>
-    <form action="">
-      <input id="fileloader" name="fileloader" type="file">
-      <label for="effect">Effect</label>
-      <select name="effect">
-        <option value="a">zoompth</option>
-        <option value="b">zoom_b</option>
-        <option value="c">zoom_r</option>
-        <option value="d">crunch</option>
-        <option value="e">pixelate</option>
-        <option value="f">outtashape</option>
-        <option value="g">outtacircle</option>
-        <option value="h">outtasquare</option>
-        <option value="i">outtatriangle</option>
-        <option value="j">rgb_2_bgr</option>
-        <option value="k">rgb_2_gbr</option>
-        <option value="l">rgb_2_grb</option>
-        <option value="m">rgb_2_brg</option>
-        <option value="n">wet_reverb</option>
-        <option value="o">deplace</option>
-        <option value="p">pixelsort</option>
-        <option value="s">smosht</option>
-        <option value="t">posht</option>
-        <option value="u">fosht</option>
-        <option value="v">losht</option>
-        <option value="w">gradient_blend_add_sample</option>
-        <option value="x">gradient_blend_add_source</option>
-        <option value="y">gradient_blend_subtract_sample</option>
-        <option value="z">gradient_blend_subtract_source</option>
-        <option value="A">radient_blend_add_sample</option>
-        <option value="C">radient_blend_add_source</option>
-        <option value="B">radient_blend_subtract_sample</option>
-        <option value="D">radient_blend_subtract_source</option>
-      </select>
-      <label for="order">Buffer Order</label>
-      <select name="order">
-        <option value="0">Buffer -> Copy</option>
-        <option value="1">Copy   -> Buffer</option>
-        <option value="2">Buffer -> Buffer</option>
-        <option value="3">Copy   -> Copy</option>
-      </select>
-      <label for="channel">Bypass Color Channel</label>
-      <select name="channel">
-        <option value="0">- - -</option>
-        <option value="7">R G B</option>
-        <option value="3">R G -</option>
-        <option value="5">R - B</option>
-        <option value="6">- G B</option>
-        <option value="1">R - -</option>
-        <option value="2">- G -</option>
-        <option value="4">- - B</option>
-      </select>
-      <label for="threshold">Threshold</label>
-      <input name="threshold" type="range" min="1" max="255" step="1" value="1">
-      <label for="depth">Depth</label>
-      <input name="depth" type="range" min="0.1" max="25" step="0.1" value="1.0">
-      <label for="xspace">X-Space</label>
-      <input name="xspace" type="range" min="1" max="255" step="1" value="5">
-      <label for="yspace">Y-Space</label>
-      <input name="yspace" type="range" min="1" max="255" step="1" value="5">
-      <label for="weight">Weight</label>
-      <input name="weight" type="range" min="1" max="255" step="1" value="5">
-      <label for="stroke">Stroke</label>
-      <input name="stroke" type="range" min="1" max="255" step="1" value="5">
-      <label for="color">Color</label>
-      <input name="color" type="color" value="#FFFFFF">
-
-      <input id="m" autocomplete="off" /><button id="q">queue</button><button id="s">Send</button>
-    </form>
-    <div id="loader" class="hidden"> Loading...</div>
+    <div class="main"> 
+      <ul id="messages"></ul>
+      <div id="canvasstats"></div>
+      <canvas id="ultros">Not supported</canvas>
+      <div id="toggle"><p>=</p></div>
+      <form action="">
+        <input id="fileloader" name="fileloader" type="file">
+        <br>
+        <div class="stacked"> 
+          <label for="effect">Effect:</label>
+          <select name="effect">
+            <option value="a">Zoompth</option>
+            <option value="b">Zoom Blue</option>
+            <option value="c">Zoom Red</option>
+            <option value="d">Crunch</option>
+            <option value="e">Pixelate</option>
+            <option value="f">Outtashape</option>
+            <option value="g">Outtacircle</option>
+            <option value="h">Outtasquare</option>
+            <option value="i">Outtatriangle</option>
+            <option value="j">RGB >> BGR</option>
+            <option value="k">RGB >> GBR</option>
+            <option value="l">RGB >> GRB</option>
+            <option value="m">RGB >> BRG</option>
+            <option value="n">Wet Reverb</option>
+            <option value="o">Deplace</option>
+            <option value="p">Pixelsort</option>
+            <option value="s">Smosht</option>
+            <option value="t">Posht</option>
+            <option value="u">Fosht</option>
+            <option value="v">Losht</option>
+            <option value="w">Gradient Blend Add Sample</option>
+            <option value="x">Gradient Blend Add Source</option>
+            <option value="y">Gradient Blend Subtract Sample</option>
+            <option value="z">Blend Subtract Source</option>
+            <option value="A">Radiant Blend Add Sample</option>
+            <option value="C">Radiant Blend Add Source</option>
+            <option value="B">Radiant Blend Subtract Sample</option>
+            <option value="D">Radiant Blend Subtract Source</option>
+            <option value="W">Clamped Blend Add Sample</option>
+            <option value="X">Clamped Blend Add Source</option>
+            <option value="Y">Clamped Blend Subtract Sample</option>
+            <option value="Z">Clamped Blend subtract Source </option>
+          </select>
+        </div> <!-- stacked -->
+        <div class="stacked"> 
+        <label for="order">Buffer Order</label>
+          <select name="order">
+            <option value="0">Buffer -> Copy</option>
+            <option value="1">Copy   -> Buffer</option>
+            <option value="2">Buffer -> Buffer</option>
+            <option value="3">Copy   -> Copy</option>
+          </select>
+        </div> <!-- stacked -->
+        <div class="stacked"> 
+        <label for="channel">Bypass Color Channel</label>
+          <select name="channel">
+            <option value="0">- - -</option>
+            <option value="7">R G B</option>
+            <option value="3">R G -</option>
+            <option value="5">R - B</option>
+            <option value="6">- G B</option>
+            <option value="1">R - -</option>
+            <option value="2">- G -</option>
+            <option value="4">- - B</option>
+          </select>
+        </div> <!-- stacked -->
+        <br>
+        <label for="threshold">Threshold</label>
+        <input name="threshold" type="range" min="1" max="255" step="1" value="50">
+        <br>
+        <label for="depth">Depth</label>
+        <input name="depth" type="range" min="0.1" max="25" step="0.1" value="1.0">
+        <br>
+        <label for="xspace">X-Space</label>
+        <input name="xspace" type="range" min="1" max="255" step="1" value="5">
+        <br>
+        <label for="yspace">Y-Space</label>
+        <input name="yspace" type="range" min="1" max="255" step="1" value="5">
+        <br>
+        <label for="weight">Weight</label>
+        <input name="weight" type="range" min="1" max="255" step="1" value="5">
+        <br>
+        <label for="stroke">Stroke</label>
+        <input name="stroke" type="range" min="1" max="255" step="1" value="5">
+        <br>
+        <label for="color">Color</label>
+        <input name="color" type="color" value="#FFFFFF">
+        <br>
+        <input id="m" autocomplete="off" /><button id="q">Queue</button><button id="s" disabled="true">Send</button>
+      </form>
+      <div id="loader" class="hidden"> Loading...</div>
+      <div id="queue"><ul></ul></div> <!-- queue -->
+      <div id="imagebar"><ul></ul></div> <!-- imagebar -->
+    </div> <!-- main -->
   <script src="/socket.io/socket.io.js"></script>
   <script>
+
+    var socket = io();
+    // var socket = io.connect("url here");
+    var queue = [];
+    var saltString = "Effect,Order,Channel,Threshold,Depth,Xspace,Yspace,Weight,Stroke,Color";
+    var globalArray;
+
+    function isLSB() {
+      var b = new Uint8Array([255, 0]);
+      return ((new Uint16Array(b, b.buffer))[0] === 255);
+    }
+
+    /*
+
+    // Check for the various File API support.
+    if (window.File && window.FileReader && window.FileList && window.Blob) {
+      //do your stuff!
+    } else {
+      alert('The File APIs are not fully supported by your browser.');
+    }
+    */
+
+
+
+    function Queue () { /* TODO: Add queue object*/ }
+
     /* BLOB shim https://github.com/rauchg/weplay-web/blob/master/client/blob.js */
     function blobToImage(imageData) {
       if(Blob && 'undefined' != typeof URL) {
@@ -108,72 +161,525 @@
         return 'about:blank';
       }
     }
-    // img.src = blobToImage(data);
 
-    var socket = io();
-    var queue = [];
-    var globalArray;
-    document.querySelector('#toggle').addEventListener('click', function () {
+    function getOptions() {   
+      var form = document.forms[0],
+          canvas = document.querySelector('#ultros'),
+          options = {};
+      options.height    = canvas.height;
+      options.width     = canvas.width;
+      options.length    = canvas.width * canvas.height * 4;
+      options.effect    = form.effect.value.charCodeAt();
+      options.order     = parseInt(form.order.value, 10);
+      options.channel   = parseInt(form.channel.value, 10);
+      options.threshold = parseInt(form.threshold.value, 10);
+      options.depth     = parseInt(form.depth.value, 10);
+      options.xspace    = parseInt(form.xspace.value, 10);
+      options.yspace    = parseInt(form.yspace.value, 10);
+      options.weight    = parseInt(form.weight.value, 10);
+      options.stroke    = parseInt(form.stroke.value, 10);
+      options.color     = parseInt("ff" + form.color.value.slice(1), 16);
+      return options;
+    }
+
+    function setOptions(obj) {
+      var form = document.forms[0];
+      form.effect.value    = String.fromCharCode(obj.effect); 
+      form.order.value     = obj.order;
+      form.channel.value   = obj.channel;
+      form.threshold.value = obj.threshold;
+      form.depth.value     = obj.depth;
+      form.xspace.value    = obj.xspace; 
+      form.yspace.value    = obj.yspace; 
+      form.weight.value    = obj.weight; 
+      form.stroke.value    = obj.stroke; 
+      if (isLSB()) {
+        // LSB architecture
+        form.color.value     = "#" + (obj.color.toString(16)).slice(2); 
+      } else {
+        // MSB architecture
+        form.color.value     = "#" + (obj.color.toString(16)).slice(0,6);   
+      }
+
+    }
+
+    function resetOptions() {
+      var form = document.forms[0];
+      form.effect.value    = 'a'
+      form.order.value     = 0;
+      form.channel.value   = 0;
+      form.threshold.value = 50;
+      form.depth.value     = 1.0;
+      form.xspace.value    = 5; 
+      form.yspace.value    = 5; 
+      form.weight.value    = 5; 
+      form.stroke.value    = 5; 
+      form.color.value     = "#FFFFFF"; 
+    }
+
+
+    function verifyOptions(obj) {
+      obj.effect = (obj.effect !== null ) ? 'g' : obj.effect;
+      obj.order  = (obj.order !== null ) ? '1' : obj.order;
+      obj.channel = ( !(obj.channel < 8) || !(obj.channel > 0) ) ? 0 : obj.channel;
+      obj.threshold = ( !(obj.threshold > 0) || !(obj.threshold < 256) ) ? 50 : obj.threshold;     
+      obj.depth = ( !(obj.depth > 0) || !(obj.depth < 256) ) ? 1.0 : obj.depth;     
+      obj.xspace = ( !(obj.xspace > 0) || !(obj.xspace < 256) ) ? 50 : obj.xspace;     
+      obj.yspace = ( !(obj.yspace > 0) || !(obj.yspace < 256) ) ? 50 : obj.yspace;     
+      obj.weight = ( !(obj.weight > 0) || !(obj.weight < 256) ) ? 50 : obj.weight;     
+      obj.stroke = ( !(obj.stroke > 0) || !(obj.stroke < 256) ) ? 50 : obj.stroke;     
+      if (isLSB()) {
+        // LSB architecture
+        obj.color =  ( !(obj.color > 0xFF000000) || !(obj.color < 0xFFFFFFFF) ) ? 0xFFFFFFFF : obj.color;
+      } else {
+        // MSB architecture
+        obj.color =  ( !(obj.color > 0x000000FF) || !(obj.color < 0xFFFFFFFF) ) ? 0xFFFFFFFF : obj.color;     
+      }
+    }
+
+
+    // ===============================================
+    // UI changes
+
+    function displayQueue() {
+      var qDisplay = document.querySelector('#queue');
+      var docFrag  = document.createDocumentFragment();
+      var instruction = Object.keys(getOptions());
+      for (var i = 0, ql= queue.length; i < ql; ++i) {
+      var ul = document.createElement('ul'),
+          div = document.createElement('div'),
+          li;
+
+        var queueObject = queue[i];
+        for (var j = 0, il = instruction.length; j < il; ++j ) {
+          var currentField = instruction[j];
+          li = document.createElement('li');
+          li.innerText =  currentField[0].toUpperCase() + currentField.slice(1) + ": " + queueObject[instruction[j]];
+          ul.appendChild(li);
+        }
+        docFrag.appendChild(ul);
+      }
+
+      while (qDisplay.firstChild) {
+        qDisplay.removeChild(qDisplay.firstChild);
+      }
+      qDisplay.appendChild(docFrag);
+
+    }
+
+
+  /*  toggleButtons() {
+      if (form.classList.contains('hidden')) {
+        form.classList.remove('hidden');
+      } else {
+        form.classList.add('hidden');
+      }
+    }*/
+
+    function turnOffButtons() {
+        document.querySelector('#s').disabled = true;
+      
+    }
+
+    function turnOnButtons() {
+        document.querySelector('#s').disabled = false;
+
+    }
+
+
+    function hideLoader() {
+      document.querySelector('#loader').classList.add('hidden');
+
+    }
+
+    function showLoader() {
+      document.querySelector('#loader').classList.remove('hidden');
+      
+    }
+
+
+    function hideQueueDisplay () {
+      document.querySelector('#queue').classList.add('hidden');
+
+    }
+
+    function showQueueDisplay() {
+      document.querySelector('#queue').classList.remove('hidden');
+      
+    }
+
+    function hideImageBar() {
+      document.querySelector('#imagebar').classList.add('hidden');
+      
+    }
+
+    function showImageBar () {
+      document.querySelector('#imagebar').classList.remove('hidden');
+
+    }
+
+
+    function beginWork() {
+      showLoader();
+      turnOffButtons();
+      
+    }
+
+    function resetUI() {
+      if (pingQueue()) {     
+        turnOnButtons();
+      } else {
+        turnOffButtons();
+      }
+      showLoader();
+
+    }
+
+
+    // ===========================================
+    // Wrapper around queue in case API changes
+    function pingQueue() {
+      return (queue.length > 0);
+    }
+
+    function retrieveQueue() {
+      return queue;
+    }
+
+    function addToQueue(opts) {
+      queue.push(opts);
+    }
+
+    function removeLastFromQueue() {
+      return queue.pop();
+    }
+
+    function resetQueue() {
+      queue = [];
+    }
+
+    function replayQueue() {
+      // TODO: Redo last action
+    }
+
+
+    function saveQueue() {
+
+      var text = saltString + "\n";
+      var q = retrieveQueue();
+
+      q.forEach(function(v,i) {
+        text += queueToCSV(v);
+        text += "\n";
+      });
+
+      var a = document.querySelector('#a');
+      var csv = new Blob(text, {type: "text/csv"});
+      a.href = URL.createObjectURL(csv);
+      a.download = "effect.csv";
+
+    }
+
+    function loadQueueFromText(text) {
+      var lines = text.split('\n'), obj;
+      if (lines[0] != saltString) {
+        handleError('CSV is not compatible');
+        return;
+      }
+      for (var i = 1, l = lines.length; i < l; ++i) {
+        addToQueue( csvToQueue(lines[i]) );
+      }
+      displayQueue();
+    }
+
+    function queueToCSV(obj) {
+      return "" + 
+      obj.effect    + "," +
+      obj.order     + "," +
+      obj.channel   + "," +
+      obj.threshold + "," +
+      obj.depth     + "," +
+      obj.xspace    + "," +
+      obj.yspace    + "," +
+      obj.weight    + "," +
+      obj.stroke    + "," +
+      obj.color;
+    }
+
+    function csvToQueue(string) {
+      var n = string.split(','), 
+          obj = {};
+      obj.effect    = parseInt(n[0], 0);
+      obj.order     = parseInt(n[1], 0);
+      obj.channel   = parseInt(n[2], 0);
+      obj.threshold = parseInt(n[3], 0);
+      obj.depth     = parseInt(n[4], 0);
+      obj.xspace    = parseInt(n[5], 0);
+      obj.yspace    = parseInt(n[6], 0);
+      obj.weight    = parseInt(n[7], 0);
+      obj.stroke    = parseInt(n[8], 0);
+      obj.color     = parseInt(n[9], 0);
+      return obj;
+    }
+  
+
+    function handleMessage(msg) {
+      socket.emit('message', msg);
+      console.log("New message",msg);
+    }
+
+    function handleError(err) {
+      socket.emit('error', err);
+      console.warn("New message",err);
+    }
+
+    // =====================================
+    // EVENTS
+
+    function hideControls(e) {
+      e.preventDefault();
+      // e.stopPropogation();
       var form = document.forms[0];
       if (form.classList.contains('hidden')) {
         form.classList.remove('hidden');
       } else {
         form.classList.add('hidden');
       }
-    })
-    document.querySelector('#m').addEventListener('change', function () {
+    }
+
+    function liveTyping() {
       var m = document.querySelector('#m'), cache;
       setTimeout(function() { 
         if (m.value != cache) {
-          socket.emit('user typing');     
+          socket.emit('typing');     
         }
       }, 100);
-    });
+    }
 
-    document.querySelector('#q').addEventListener('click', function(e) {
+    // UI update goes here?
+    function queueAction(e) {
       e.preventDefault();
-      var form = document.forms[0],
-          canvas = document.querySelector('#ultros');
-      
-      var options = {};
-      options.height = canvas.height;
-      options.width = canvas.width;
-      options.length = canvas.width * canvas.height * 4;
-      options.effect = form.effect.value.charCodeAt();
-      options.order  = form.order.value;
-      options.channel = form.channel.value;
-      options.threshold = form.threshold.value;
-      options.depth = form.depth.value;
-      options.xspace = form.xspace.value;
-      options.yspace = form.yspace.value;
-      options.weight = form.weight.value;
-      options.stroke = form.stroke.value;
-      options.color = (form.color.value.split(1));
+      // e.stopPropogation();
 
-      queue.push(options);
-    })
-    document.forms[0].addEventListener('submit', function(e) {
+      var opts = getOptions();
+
+
+      displayQueue(opts);
+      addToQueue(opts);
+      resetOptions();
+
+    }
+    // UI action goes here?
+    function removeLastQueueAction(e) {
       e.preventDefault();
+      // e.stopPropogation();
+
+      var lastOption = removeLastFromQueue();
+
+      setOptions(lastOption);
+
+    }
+
+    function glitchAction(e) {
+      e.preventDefault();
+      // e.stopPropogation();
       var params = {};
       var canvas = document.querySelector('#ultros');
+      var m = document.querySelector('#m');
       var ctx = canvas.getContext('2d');
-      var imgData;
-      document.querySelector('#loader').classList.remove('hidden');
-
       var dataURL = canvas.toDataURL();
-      // imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      // params.data = imgData.data;
-      params.png = dataURL;
-      params.options = queue;
+      var imgData;
 
+      beginWork();
+      
+      params.png = dataURL;
+      params.options = retrieveQueue();
 
       socket.emit('glitch', params);
-      queue = [];
-      var m = document.querySelector('#m');
-      socket.emit('chat message', m.value );
+      
+      resetQueue();
+
+      handleMessage( m.value );
       m.value = '';
+
       return false;
-    });
+
+    }
+
+
+    function loadQueueCSV (evt) {
+      var file = evt.target.files[0]; 
+      if (!file) {
+        handleError('Failed to load file');
+      } else if (!file.type.match('text.*')) {
+        handleError(f.name + " is not a valid text file.");
+      } else {
+        var reader = new FileReader();
+        reader.onload = function(e) { 
+          try { 
+            var contents = e.target.result;
+            handleMessage("Got the file.n" 
+                  +"name: " + f.name + "n"
+                  +"type: " + f.type + "n"
+                  +"size: " + f.size + " bytesn"
+                  + "starts with: " + contents.substr(1, contents.indexOf("n")) 
+            );
+            loadQueueFromText(contents);
+          } catch (e) {
+            handleError(e);
+          }
+        }
+        reader.readAsText(file);
+      }
+    }
+  
+
+    function loadImage (e){
+      
+      var canvasstats = document.querySelector('#canvasstats'),
+          canvas = document.querySelector('#ultros'),
+          ctx = canvas.getContext('2d'),
+          file = e.target.files[0],
+          reader = new FileReader();
+      
+      if (!file) {
+        handleError('Failed to load file');
+      } else if (!file.type.match('image.*')) {
+        handleError(file.name + ' is not a valid image file.');
+      } else {
+        reader.onload = function(event) {
+          try {
+            var img = new Image();
+            img.onload = function(){
+              canvas.width = img.width;
+              canvas.height = img.height;
+              canvas.style.width = img.width + "px";
+              canvas.style.height = img.height + "px";
+              canvasstats.innerHTML = "<p>Height: " + canvas.height + "px</p><p>Width: " +  canvas.width + "px</p>";
+              ctx.drawImage(img,0,0);
+            }
+            img.src = event.target.result;
+          } catch (err) {
+            handleError(err);
+          }
+        }
+        reader.readAsDataURL(file);           
+      }
+
+    }
+
+    function deleteImage(e) {
+      var tar = e.target;
+      if (e.target.dataset.saved == true) {
+        URL.revokeObjectURL("image");
+        URL.revokeObjectURL("effectcsv");
+        e.parent.removeChild(e);
+      }
+    }
+
+    function unloadAllImages() {
+      var imageBar = document.querySelector('#imagebar');
+      while(imageBar.firstChild) {
+        URL.revokeObjectURL(imageBar.firstChild.querySelector('img').src);
+        URL.revokeObjectURL(imageBar.firstChild.querySelector('a').href);
+        imageBar.removeChild(imageBar.firstChild);
+      }
+    }
+
+    // =========================================
+    // Socket Events
+
+    function connectAction(user) {
+      var li = document.createElement('li');
+      li.innerText = user +  " connected";
+      document.querySelector('#messages').appendChild(li);
+    }
+
+    function messageAction(msg) {
+      var li = document.createElement('li');
+      li.innerText = msg;
+      document.querySelector('#messages').appendChild(li);
+    }
+
+    function errorAction(err) {
+      var li = document.createElement('li');
+      li.innerText = err;
+      li.classList.add('error');
+      document.querySelector('#messages').appendChild(li);
+    }
+
+    function resetGlitchAction() {
+      resetUI();
+      resetOptions();
+      resetQueue();
+      turnOffButtons();
+      hideLoader();
+      hideImageBar();
+      hideQueueDisplay();
+    }
+
+
+    function receiveGlitchData(data) {
+      var uint8Arr = new Uint8Array(data.buffer);
+      var binary = '';
+      for ( var i = 0, l = uint8Arr.length; i < l; ++i ) {
+        binary += String.fromCharCode(uint8Arr[i]);
+      }
+      var base64String = window.btoa(binary);
+
+      var img = new Image();
+      img.onload = function() {
+        var canvas = document.querySelector('#ultros');
+        var ctx  = canvas.getContext('2d');
+        ctx.drawImage(this, 0, 0);
+      }
+      img.src = 'data:image/png;base64,' + base64String;
+      document.querySelector('#loader').classList.add('hidden');
+    }
+
+    // ==============================================
+    // Load and Unload Actions (good for SPA)
+
+
+    function bootstrapApp() {
+      document.querySelector('#toggle').addEventListener('click', hideControls, false);
+      document.querySelector('#m').addEventListener('change', liveTyping, false);
+      document.querySelector('#q').addEventListener('click', queueAction, false);
+      document.forms[0].addEventListener('submit', glitchAction, false);
+      document.querySelector('#fileloader').addEventListener('change', loadImage, false);
+      socket.on('glitched', receiveGlitchData);
+      socket.on('reset', resetGlitchAction);
+      socket.on('connected', connectAction);
+      socket.on('message', messageAction);
+      socket.on('error', errorAction);
+    }
+
+
+    function teardownApp() {
+      var leave = window.confirm("You have unsaved images, are you sure you want to exit?");
+      if (leave) {    
+        var main = document.querySelector('#main');
+        document.querySelector('#toggle').removeEventListener('click', hideControls, false);
+        document.querySelector('#m').removeEventListener('change', liveTyping, false);
+        document.querySelector('#q').removeEventListener('click', queueAction, false);
+        document.forms[0].removeEventListener('submit', glitchAction, false);
+        document.querySelector('#fileloader').removeEventListener('change', loadImage, false);
+        socket.removeListener('glitched', receiveGlitchData);
+        socket.removeListener('reset', resetGlitchAction);
+        socket.removeListener('connected', connectAction);
+        socket.removeListener('message', messageAction);
+        socket.removeListener('error', errorAction);
+
+        while (main.firstChild) {
+          main.removeChild(main.firstChild);
+        }
+      }
+      
+    }
+
+
+    document.querySelector('#queue').addEventListener('click', function() {});
+
 
     // socket.on('glitched', function(glitchedData){
     //   var canvas = document.querySelector('#ultros');
@@ -190,107 +696,13 @@
 
     // })
 
-    // http://stackoverflow.com/questions/24107378/socket-io-began-to-support-binary-stream-from-1-0-is-there-a-complete-example-e
-    socket.on('glitched', function(data) {
-      var uint8Arr = new Uint8Array(data.buffer);
-      var binary = '';
-      for ( var i = 0, l = uint8Arr.length; i < l; ++i ) {
-        binary += String.fromCharCode(uint8Arr[i]);
-      }
-      var base64String = window.btoa(binary);
-
-      var img = new Image();
-      img.onload = function() {
-        var canvas = document.querySelector('#ultros');
-        var ctx  = canvas.getContext('2d');
-        ctx.drawImage(this, 0, 0);
-      }
-      img.src = 'data:image/png;base64,' + base64String;
-      document.querySelector('#loader').classList.add('hidden');
-    });
 
 
-    socket.on('not glitched', function() {
-
-      document.querySelector('#loader').classList.add('hidden');
-    })
-
-    socket.on('connected', function(user) {
-      var li = document.createElement('li');
-      li.innerText = user +  " connected";
-      document.querySelector('#messages').appendChild(li);
-    });
-
-    socket.on('chat message', function(msg) {
-      var li = document.createElement('li');
-      li.innerText = msg;
-      document.querySelector('#messages').appendChild(li);
-    });
-
-    socket.on('error', function(err) {
-      var li = document.createElement('li');
-      li.innerText = err;
-      li.classList.add('error');
-      document.querySelector('#messages').appendChild(li);
-    })
-
-    socket.on('user typing', function () {
-      
-    })
+    // socket.on('typing', function () { });
 
 
-
-  var imageLoader = document.getElementById('fileloader');
-  imageLoader.addEventListener('change', handleImage, false);
-  var canvas = document.querySelector('#ultros');
-  var ctx = canvas.getContext('2d');
-  var canvasstats = document.querySelector('#canvasstats');
-  function handleImage(e){
-    // if (/.*(jpg|jpeg|png|gif)/gi.test(e.target.files[0].name) ){
-
-    var reader = new FileReader();
-    reader.onload = function(event){
-        // console.log(e, e.target.files[0].name)
-
-        try {
-
-          var img = new Image();
-          img.onload = function(){
-              canvas.width = img.width;
-              canvas.height = img.height;
-              canvas.style.width = img.width + "px";
-              canvas.style.height = img.height + "px";
-              canvasstats.innerHTML = "<p>Height: " + canvas.height + "px</p><p>Width: " +  canvas.width + "px</p>";
-              ctx.drawImage(img,0,0);
-              /*
-              if (img.height > 1600 || img.width > 1600) {
-                canvas.style.width = Math.ceil(img.width / 4) + "px";
-                canvas.style.height = Math.ceil(img.height / 4) + "px";
-                canvasStats.style.height = Math.ceil(img.height / 4) + "px";
-                canvasStats.style.width = Math.ceil(img.width / 4) + "px";
-                // glitcher.cropFactor = 4;
-              } else if (img.height > 800 || img.width > 800) {
-                canvas.style.width = Math.ceil(img.width / 2) + "px";
-                canvas.style.height = Math.ceil(img.height / 2) + "px";
-                canvasStats.style.height = Math.ceil(img.height / 2) + "px";
-                canvasStats.style.width = Math.ceil(img.width / 2) + "px";
-                // glitcher.cropFactor = 2;
-              } else {
-                // glitcher.cropFactor = 1;
-              }*/
-
-              // glitcher.getImageData(this);
-              // glitcher.passDataAlong(this);
-              // glitcher.clearCrop();
-          }
-          img.src = event.target.result;
-        } catch (err) {
-          alert('There was an arror!', err);
-        }
-    }
-    reader.readAsDataURL(e.target.files[0]);     
-
-  }
+  window.onload = bootstrapApp();
+  // window.onunload = teardownApp();
 
 
 /*

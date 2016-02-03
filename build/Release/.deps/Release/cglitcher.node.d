@@ -1,0 +1,1 @@
+cmd_Release/cglitcher.node := c++ -bundle -undefined dynamic_lookup -Wl,-search_paths_first -mmacosx-version-min=10.5 -arch x86_64 -L./Release  -o Release/cglitcher.node Release/obj.target/cglitcher/cglitcher.o -lopencv_core -lopencv_imgproc -lopencv_calib3d -lopencv_features2d -lopencv_objdetect -lopencv_video -lopencv_highgui -lopencv_flann -lopencv_ml

@@ -1,22 +1,24 @@
 var glitcher = require('bindings')('cglitcher');
 var app = require('express')();
 var http = require('http').Server(app);
+var path = require('path');
 var io = require('socket.io')(http);
 var fs = require('fs');
 
-fs.mkdir(__dirname +'/glitched', function(e) {
-  console.log('already exists');
+fs.mkdir(__dirname +'/../test/glitched', function(e) {
+  console.log('Directory exists at: ' + __dirname +'../test/glitched');
 })
 
 app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/index.html');
+  res.sendFile(path.resolve(__dirname + '/../views/index.html'));
+
 });
 
 
 
 io.on('connection', function(socket) {
   io.emit('connected', 'username');
-  io.emit('not glitched');
+  io.emit('reset');
 
 
   // watch a directory to place images on html
@@ -30,23 +32,27 @@ io.on('connection', function(socket) {
     })
   */
 
-  socket.on('chat message', function(msg) {
-    io.emit('chat message', msg);
+  socket.on('message', function(msg) {
+    io.emit('message', msg);
   });
   
   socket.on('disconnect', function() {
     // console.log('User disconnected')
-    io.emit('chat message', 'user disconnected');
+    io.emit('message', 'user disconnected');
 
   });
+  socket.on('error', function(err) {
+    io.emit('error', err);
+  })
   
  socket.on('glitch', function(params) {
   var base64Data = params.png.replace(/^data:image\/png;base64/, "");
-  var filename = __dirname + "/glitched/original"+ new Date().toISOString().slice(17,19) + (Math.random()).toString().slice(2) + ".png";
-  var outfilename = __dirname + "/glitched/glitched"+ new Date().toISOString().slice(17,19) + (Math.random()).toString().slice(2) + ".png";
+  var filename = __dirname + "/../test/glitched/original"+ new Date().toISOString().slice(17,19) + (Math.random()).toString().slice(2) + ".png";
+  var outfilename = __dirname + "/../test/glitched/glitched"+ new Date().toISOString().slice(17,19) + (Math.random()).toString().slice(2) + ".png";
   fs.writeFile(filename, base64Data, 'base64', function(err) {
     if (err) {
-      socket.emit('error', {error: error});
+      socket.emit('error', {error: err});
+      console.log(err);
       return;
     };
     console.log('Saved!');
@@ -64,57 +70,8 @@ io.on('connection', function(socket) {
   });
  })
 
-//   socket.on('glitch', function(params) {
-//     if (!params.options || params.options.length < 1) {
-//       console.log("No bufffer!");
-//       io.emit('chat message', "Glitched!");
-//       io.emit('not glitched');
-//       return;
-//     }
-//     console.log("This is where you glitch it: ", params.options);
 
-//     console.log(Object.keys(params));
-
-//     params.options.forEach(function(v) {
-//       console.log("Each effect: ", v.effect );
-//     })
-//     var length = params.options[0].length;
-//     var socketArray = params.data;
-//     var imgBuffer = new Buffer(length);
-//     for (var i = 0; i < length; ++i) {
-//       imgBuffer[i] = socketArray[i];
-//     }
-//     socketArray = null;
-//     params.data = null;
-//     console.log("Buffered image", imgBuffer);
-//     console.log('pos 100: %d, length: %d ', imgBuffer[100], imgBuffer.length);
- 
-//     var sampleData = [ 
-//       imgBuffer[24],
-//       imgBuffer[240],
-//       imgBuffer[2400],
-//       imgBuffer[24000]
-//     ]
-
-
-//     try {
-//       glitcher.UseBuffer(params.options, imgBuffer, function(buf) {
-//         console.log('done!', buf);
-//         // imgArray = new Uint8Array(buf);
-
-//         if (imgBuffer[24] == buf[24]) console.log("First is the same: ", buf[24]);
-//         if (imgBuffer[240] == buf[240]) console.log("Second is the same: ", buf[240]);
-//         if (imgBuffer[2400] == buf[2400]) console.log("Third is the same: ", buf[2400]);
-//         if (imgBuffer[24000] == buf[24000]) console.log("Fouth is the same: ", buf[24000]);
-
-
-//         io.emit('glitched', { imgArray: buf });
-//         io.emit('chat message', "Glitched!");
-//       })
-//     } catch(e) {
-//       console.log("Error: ", e.message);
-//     }
-//   })
+// TODO: Use raw data buffer, currently this is too much data to send over
 
 
 });
@@ -140,6 +97,6 @@ app.post('/', function (req, res) {
 
 
 http.listen(1337, function() {
-  io.emit('not glitched', "server restarted!")
-  process.stdout.write("Listening on :1337");
+  io.emit('reset', "server restarted!")
+  process.stdout.write("Listening on :1337\n");
 })

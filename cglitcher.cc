@@ -184,20 +184,20 @@ class MyWorker : public Nan::AsyncWorker {
     
 
     // Asynchronous, non-V8 work goes here
-    std::cout << "Reading from \"The stack\", Asynchronously " << std::endl;
+    // std::cout << "Reading from \"The stack\", Asynchronously " << std::endl;
     for (size_t i = 0; i < this->stacksize; ++i) {
-      std::cout<< "-------------------------------" << std::endl;
-      std::cout<< "Reading from stack position #" << i << std::endl;
-      std::cout<< "-------------------------------" << std::endl;
-      std::cout << "Effect: " << this->stack[i].effect << std::endl;
-      std::cout << "Channel: " << (std::uint_least32_t)this->stack[i].channel << std::endl;
-      std::cout << "Threshold: " << this->stack[i].threshold << std::endl;
-      std::cout << "Depth: " << this->stack[i].depth << std::endl;
-      std::cout << "X-Space: " << (std::uint_least32_t)this->stack[i].xspace << std::endl;
-      std::cout << "Y-Space: " << (std::uint_least32_t)this->stack[i].yspace << std::endl;
-      std::cout << "Stroke: " << (std::uint_least32_t)this->stack[i].stroke << std::endl;
-      std::cout << "Weight: " << (std::uint_least32_t)this->stack[i].weight << std::endl;
-      std::cout << "Color: " << this->stack[i].color << std::endl;
+      // std::cout<< "-------------------------------" << std::endl;
+      // std::cout<< "Reading from stack position #" << i << std::endl;
+      // std::cout<< "-------------------------------" << std::endl;
+      // std::cout << "Effect: " << this->stack[i].effect << std::endl;
+      // std::cout << "Channel: " << (std::uint_least32_t)this->stack[i].channel << std::endl;
+      // std::cout << "Threshold: " << this->stack[i].threshold << std::endl;
+      // std::cout << "Depth: " << this->stack[i].depth << std::endl;
+      // std::cout << "X-Space: " << (std::uint_least32_t)this->stack[i].xspace << std::endl;
+      // std::cout << "Y-Space: " << (std::uint_least32_t)this->stack[i].yspace << std::endl;
+      // std::cout << "Stroke: " << (std::uint_least32_t)this->stack[i].stroke << std::endl;
+      // std::cout << "Weight: " << (std::uint_least32_t)this->stack[i].weight << std::endl;
+      // std::cout << "Color: " << this->stack[i].color << std::endl;
 
     }
 
@@ -217,7 +217,7 @@ class MyWorker : public Nan::AsyncWorker {
     // OBTAIN FILENAME!
     // std::string filname;
 
-    std::cout << "phase 1" << std::endl;
+    // std::cout << "phase 1" << std::endl;
     // std::size_t num;
     uint_least8_t * pixels;
     cv::Mat m;
@@ -225,12 +225,12 @@ class MyWorker : public Nan::AsyncWorker {
     // std::istringstream iss(argv[2]);
     // if (!(iss >> num)) std::cerr << "Invalid number " << argv[2] << std::endl;
     
-    std::cout << "phase 2" << std::endl;
+    // std::cout << "phase 2" << std::endl;
     // std::cout << "Image file is " << this->filename << std::endl;
     // m = cv::imread("./Nicole_Lee_Widga.jpg", CV_LOAD_IMAGE_COLOR);
     m = cv::imread(filename, CV_LOAD_IMAGE_COLOR);
     
-    std::cout << "phase 3" << std::endl;
+    // std::cout << "phase 3" << std::endl;
     if (!m.data) return;
     size_t elemSize = m.elemSize();
     size_t total = m.total();
@@ -245,7 +245,7 @@ class MyWorker : public Nan::AsyncWorker {
       
     }
 
-    std::cout << "phase 4" << std::endl;
+    // std::cout << "phase 4" << std::endl;
     // readImageDataFromOpenCv(filename, pixels, &opts)
     
     uint_fast32_t * rgbPixels = new uint_fast32_t [ length ];
@@ -274,7 +274,7 @@ class MyWorker : public Nan::AsyncWorker {
 
     // Run phase
     // phase = 3;
-    std::cout << "will run " << this->stacksize << " times" << std::endl;
+    // std::cout << "will run " << this->stacksize << " times" << std::endl;
     for (size_t i = 0; i < this->stacksize; ++i) {
 
     /*
@@ -292,8 +292,8 @@ class MyWorker : public Nan::AsyncWorker {
 
     */
 
-      std::cout << "Run #" << i << "." << std::endl;
-      std::cout << "Effect is " << (char)this->stack[i].effect << "." << std::endl;
+      // std::cout << "Run #" << i << "." << std::endl;
+      // std::cout << "Effect is " << (char)this->stack[i].effect << "." << std::endl;
 
 
       switch(stack[i].order) {
@@ -325,19 +325,19 @@ class MyWorker : public Nan::AsyncWorker {
 
     // Write phase
     // phase = 4;
-    std::cout << "phase 5" << std::endl;
+    // std::cout << "phase 5" << std::endl;
 
     A2BcopyBuffer(dupPixels, rgbPixels,  &this->stack[0]);
     convert32bitToCVData(pixels, rgbPixels , total, length);
     
     // Output and output type here
     // string RandomNumberString = static_cast<ostringstream*>( &(ostringstream() << t ) )->str();
-    std::cout << "phase 6" << std::endl;
+    // std::cout << "phase 6" << std::endl;
    
     cv::imwrite( outfile, m);
     // cv::imwrite(  "Test.jpg", m);
 
-    std::cout << "phase 7" << std::endl;
+    // std::cout << "phase 7" << std::endl;
 
 /*
     t = 1000*((double)cv::getTickCount() - t)/cv::getTickFrequency();
@@ -349,9 +349,9 @@ class MyWorker : public Nan::AsyncWorker {
   // Clean up phase
     // phase = 5;
     // delete[] &this->stack;
-    std::cout << "delete dupPixels" << std::endl;
+    // std::cout << "delete dupPixels" << std::endl;
     // delete[] dupPixels;
-    std::cout << "delete rgbPixels" << std::endl;
+    // std::cout << "delete rgbPixels" << std::endl;
     // delete[] rgbPixels;
 /*
     t = 1000*((double)cv::getTickCount() - t)/cv::getTickFrequency();
@@ -407,31 +407,31 @@ class MyBufferWorker : public Nan::AsyncWorker {
     // Asynchronous, non-V8 work goes here
     // std::cout << "Reading from \"The stack\", Asynchronously " << std::endl;
     for (size_t i = 0; i < this->stacksize; ++i) {
-      std::cout<< "-------------------------------" << std::endl;
-      std::cout<< "Reading from stack position #" << i << std::endl;
-      std::cout<< "-------------------------------" << std::endl;
-      std::cout << "Length: " << this->stack[i].length << std::endl;
-      std::cout << "Width: " << this->stack[i].width << std::endl;
-      std::cout << "Height: " << this->stack[i].height << std::endl;
-      std::cout << "Effect: " << (std::uint_least32_t)this->stack[i].effect << std::endl;
-      std::cout << "Order: " << (std::uint_least32_t)this->stack[i].order << std::endl;
-      std::cout << "Channel: " << (std::uint_least32_t)this->stack[i].channel << std::endl;
-      std::cout << "Threshold: " << (std::uint_least32_t)this->stack[i].threshold << std::endl;
-      std::cout << "Depth: " << this->stack[i].depth << std::endl;
-      std::cout << "X-Space: " << (std::uint_least32_t)this->stack[i].xspace << std::endl;
-      std::cout << "Y-Space: " << (std::uint_least32_t)this->stack[i].yspace << std::endl;
-      std::cout << "Stroke: " << (std::uint_least32_t)this->stack[i].stroke << std::endl;
-      std::cout << "Weight: " << (std::uint_least32_t)this->stack[i].weight << std::endl;
-      std::cout << "Color: " << this->stack[i].color << std::endl;
-      std::cout<< "-------------------------------" << std::endl;
-      std::cout<< "End read from stack position #" << i << std::endl;
-      std::cout<< "-------------------------------" << std::endl;
+      // std::cout<< "-------------------------------" << std::endl;
+      // std::cout<< "Reading from stack position #" << i << std::endl;
+      // std::cout<< "-------------------------------" << std::endl;
+      // std::cout << "Length: " << this->stack[i].length << std::endl;
+      // std::cout << "Width: " << this->stack[i].width << std::endl;
+      // std::cout << "Height: " << this->stack[i].height << std::endl;
+      // std::cout << "Effect: " << (std::uint_least32_t)this->stack[i].effect << std::endl;
+      // std::cout << "Order: " << (std::uint_least32_t)this->stack[i].order << std::endl;
+      // std::cout << "Channel: " << (std::uint_least32_t)this->stack[i].channel << std::endl;
+      // std::cout << "Threshold: " << (std::uint_least32_t)this->stack[i].threshold << std::endl;
+      // std::cout << "Depth: " << this->stack[i].depth << std::endl;
+      // std::cout << "X-Space: " << (std::uint_least32_t)this->stack[i].xspace << std::endl;
+      // std::cout << "Y-Space: " << (std::uint_least32_t)this->stack[i].yspace << std::endl;
+      // std::cout << "Stroke: " << (std::uint_least32_t)this->stack[i].stroke << std::endl;
+      // std::cout << "Weight: " << (std::uint_least32_t)this->stack[i].weight << std::endl;
+      // std::cout << "Color: " << this->stack[i].color << std::endl;
+      // std::cout<< "-------------------------------" << std::endl;
+      // std::cout<< "End read from stack position #" << i << std::endl;
+      // std::cout<< "-------------------------------" << std::endl;
     }
 
 
-    std::cout << "phase 1" << std::endl;
-    std::cout << "phase 2" << std::endl;
-    std::cout << "phase 3" << std::endl;
+    // std::cout << "phase 1" << std::endl;
+    // std::cout << "phase 2" << std::endl;
+    // std::cout << "phase 3" << std::endl;
     // Make extra doubly sure you're passing in the w/h/length on ALL of the objects!
 
     // Set each stack's size off of the image size
@@ -441,7 +441,7 @@ class MyBufferWorker : public Nan::AsyncWorker {
     // }
 
 
-    std::cout << "phase 4" << std::endl;
+    // std::cout << "phase 4" << std::endl;
     // readImageDataFromOpenCv(filename, pixels, &opts)
     // uint_fast32_t * rgbPixels = reinterpret_cast<uint_fast32_t*>(this->pixels);
 
@@ -454,16 +454,16 @@ class MyBufferWorker : public Nan::AsyncWorker {
     // std::vector<uint_fast32_t> rgbPixels(length);
     // convertCVDataTo32bit(pixels, rgbPixels, length);
     // convert8BitCanvasTo32Bit(this->pixels, rgbPixels, this->stack[0].length);
-    std::cout<< "phase 4.5" << std::endl;
+    // std::cout<< "phase 4.5" << std::endl;
     A8Bit2BcopyBuffer(pixels, rgbPixels,  &this->stack[0]);
-    std::cout<< "phase 4.75" << std::endl;
+    // std::cout<< "phase 4.75" << std::endl;
     A2BcopyBuffer(rgbPixels, dupPixels,  &this->stack[0]);
 
-    std::cout << "will run " << this->stacksize << " times" << std::endl;
+    // std::cout << "will run " << this->stacksize << " times" << std::endl;
     for (size_t i = 0; i < this->stacksize; ++i) {
 
-      std::cout << "Run #" << i << "." << std::endl;
-      std::cout << "Effect is " << (char)this->stack[i].effect << "." << std::endl;
+      // std::cout << "Run #" << i << "." << std::endl;
+      // std::cout << "Effect is " << (char)this->stack[i].effect << "." << std::endl;
 
 
       switch(stack[i].order) {
@@ -495,31 +495,31 @@ class MyBufferWorker : public Nan::AsyncWorker {
 
     // Write phase
     // phase = 4;
-    std::cout << "phase 5" << std::endl;
+    // std::cout << "phase 5" << std::endl;
 
     A2BcopyBuffer(dupPixels, rgbPixels,  &this->stack[0]);
-    std::cout << "phase 5.5" << std::endl;
-    std::cout << "stack   length" << this->stack[0].length << std::endl;
-    std::cout << "orginal length" << this->bufferlength << std::endl;
+    // std::cout << "phase 5.5" << std::endl;
+    // std::cout << "stack   length" << this->stack[0].length << std::endl;
+    // std::cout << "orginal length" << this->bufferlength << std::endl;
     A2B8BitcopyBuffer(rgbPixels, this->pixels, &this->stack[0]);
     // this->pixels = reinterpret_cast<uint_fast8_t*>(rgbPixels);
     // convert32bitToCVData(pixels, rgbPixels , total, this->stack[0].length);
     // Output and output type here
     // string RandomNumberString = static_cast<ostringstream*>( &(ostringstream() << t ) )->str();
-    std::cout << "phase 6" << std::endl;
+    // std::cout << "phase 6" << std::endl;
    
     // cv::imwrite( outfile, m);
     // cv::imwrite(  "Test.jpg", m);
 
-    std::cout << "phase 7" << std::endl;
+    // std::cout << "phase 7" << std::endl;
 
 
   // Clean up phase
     // phase = 5;
     // delete[] &this->stack;
-    std::cout << "delete dupPixels" << std::endl;
+    // std::cout << "delete dupPixels" << std::endl;
     // delete[] dupPixels;
-    std::cout << "delete rgbPixels" << std::endl;
+    // std::cout << "delete rgbPixels" << std::endl;
     // delete[] rgbPixels;
 
   }
@@ -536,15 +536,15 @@ class MyBufferWorker : public Nan::AsyncWorker {
     // v8::Local<v8::Object> buf = Nan::NewBuffer(this->stack[0].length).ToLocalChecked();
     // char* pbuf = node::Buffer::Data(buf);
     char * nbuf = reinterpret_cast<char*>(this->pixels);
-    std::cout << "right before remaking buffer " << std::endl;
+    // std::cout << "right before remaking buffer " << std::endl;
     v8::Local<v8::Object> buf  = Nan::NewBuffer(nbuf, this->bufferlength).ToLocalChecked();
-    std::cout << "after making new buffer" << std::endl;
+    // std::cout << "after making new buffer" << std::endl;
 
     v8::Local<v8::Value> argv[] = {
       buf
     };
 
-    std::cout << "Finished" << std::endl;
+    // std::cout << "Finished" << std::endl;
     callback->Call(1, argv);
 
   }
@@ -601,7 +601,7 @@ NAN_METHOD(UseFilename) {
 
  
   Nan::Callback* holla = new Nan::Callback(hollerback);
-  std::cout << imagefile << std::endl;
+  // std::cout << imagefile << std::endl;
   MyWorker *worker = new MyWorker(holla, imagefile, outfile, stack, runTimes);
   Nan::AsyncQueueWorker(worker);  
   // Nan::ThrowError("Jus cause cuz");
@@ -668,7 +668,7 @@ NAN_METHOD(UseBuffer) {
       num = length.ToLocalChecked().As<v8::Number>();
   
       std::size_t intLength = num->NumberValue();
-      std::cout << "Length is " << intLength << std::endl;
+      // std::cout << "Length is " << intLength << std::endl;
 
       stack[i].length = (intLength / 4);
 
@@ -680,7 +680,7 @@ NAN_METHOD(UseBuffer) {
       num = height.ToLocalChecked().As<v8::Number>();
   
       std::size_t intHeight = num->NumberValue();
-      std::cout << "Height is " << intHeight << std::endl;
+      // std::cout << "Height is " << intHeight << std::endl;
 
       stack[i].height = intHeight;
 
@@ -692,7 +692,7 @@ NAN_METHOD(UseBuffer) {
       num = width.ToLocalChecked().As<v8::Number>();
   
       std::size_t intWidth = num->NumberValue();
-      std::cout << "Width is " << intWidth << std::endl;
+      // std::cout << "Width is " << intWidth << std::endl;
 
       stack[i].width = intWidth;
 
@@ -708,10 +708,10 @@ NAN_METHOD(UseBuffer) {
   }
 
   Nan::Callback* holla = new Nan::Callback(hollerback);
-  std::cout << "=============================" << std::endl;
-  std::cout << "first position in pixels: " << (int)pixels[1] << std::endl;
-  std::cout << "Original buffer length  : " << bLength << std::endl;
-  std::cout << "=============================" << std::endl;
+  // std::cout << "=============================" << std::endl;
+  // std::cout << "first position in pixels: " << (int)pixels[1] << std::endl;
+  // std::cout << "Original buffer length  : " << bLength << std::endl;
+  // std::cout << "=============================" << std::endl;
   MyBufferWorker *worker = new MyBufferWorker(holla, pixels, stack, runTimes, bLength);
   Nan::AsyncQueueWorker(worker);  
   
@@ -887,7 +887,7 @@ int channelSelector32LSB(uint_fast32_t *chunk, uint_fast32_t *dupBuffer, Options
 void A2BcopyBuffer(uint_fast32_t *chunk, uint_fast32_t *dupBuffer, Options *opts) 
 {
   size_t length = opts->length, i;
-  std::cout << "Length matches " << (bool)(chunk[length-1] == dupBuffer[length-1]) << std::endl;
+  // std::cout << "Length matches " << (bool)(chunk[length-1] == dupBuffer[length-1]) << std::endl;
   for ( i = 0; i < length; ++i) {
     dupBuffer[i] = chunk[i];
   }
@@ -963,7 +963,7 @@ void A2B8BitcopyBuffer(uint_fast32_t *chunk, uint_fast8_t *dupBuffer, Options *o
 
 void convertCVDataTo32bit(uint_least8_t *cvPixels, uint_fast32_t* rgbPixels, size_t size)
 {
-  std::cout << "converting cv data to 32 bit" << endl;
+  // std::cout << "converting cv data to 32 bit" << endl;
   // std::cout << "Test sample -begin-"<< endl;
   // std::cout << "RGB pixels[200]"    << rgbPixels[200] << endl;
   // std::cout << "cvPixels[600]"      << (uint_least32_t)cvPixels[600]  << endl;
@@ -984,7 +984,17 @@ void convertCVDataTo32bit(uint_least8_t *cvPixels, uint_fast32_t* rgbPixels, siz
       ++n;
     }
   } else {
-    std::cout << "Not supported...yet" << endl;
+     for (size_t i = 0; i < size; i+=3) {
+      // rgbPixels[n] =  255 << 24;            // A
+      // rgbPixels[n] |= cvPixels[i    ] << 16;// R
+      // rgbPixels[n] |= cvPixels[i + 1] <<  8;// G
+      // rgbPixels[n] |= cvPixels[i + 2];      // B
+      rgbPixels[n] = (cvPixels[i + 2] << 24) | (cvPixels[i + 1] << 16) | (cvPixels[i] <<  8) | 255;
+      // msb
+      // rgbPixels[n] = (cvPixels[i + 2] << 24) | (cvPixels[i + 1]  << 16) | (cvPixels[i] <<  8) | 255;
+      ++n;
+    }
+    // std::cout << "Not supported...yet" << endl;
   }
 
   // std::cout << "Test sample -begin-"<< endl;
@@ -1001,7 +1011,7 @@ void convertCVDataTo32bit(uint_least8_t *cvPixels, uint_fast32_t* rgbPixels, siz
 
 void convert32bitToCVData(uint_least8_t *cvPixels, uint_least32_t* rgbPixels , size_t size, size_t length)
 {
-  std::cout << "converting from 32bit to cv data" << endl;
+  // std::cout << "converting from 32bit to cv data" << endl;
   size_t n = 0;
   uint_fast32_t color;
   // if (isLSB()) {
@@ -1014,18 +1024,27 @@ void convert32bitToCVData(uint_least8_t *cvPixels, uint_least32_t* rgbPixels , s
   //   if (n > size) break; 
   //   }
   // }
-    if (isLSB()) {
-  for (size_t i = 0; i < size; ++i) {
-    color = rgbPixels[i];
-    cvPixels[n + 2] = (color &0xFF);       // R;
-    cvPixels[n + 1] = (color >>  8) &0xFF; // G;
-    cvPixels[n + 0] = (color >> 16) &0xFF; // B;
-    n += 3;
-    if (n > length) break; 
+  if (isLSB()) {
+    for (size_t i = 0; i < size; ++i) {
+      color = rgbPixels[i];
+      cvPixels[n + 2] = (color &0xFF);       // R;
+      cvPixels[n + 1] = (color >>  8) &0xFF; // G;
+      cvPixels[n + 0] = (color >> 16) &0xFF; // B;
+      n += 3;
+      if (n > length) break; 
+    }
+  } else {
+    for (size_t i = 0; i < size; ++i) {
+      color = rgbPixels[i];
+      cvPixels[n + 2] = (color >> 24) &0xFF; // R;
+      cvPixels[n + 1] = (color >> 16) &0xFF; // G;
+      cvPixels[n + 0] = (color >>  8) &0xFF; // B;
+      n += 3;
+      if (n > length) break; 
     }
   }
-  std::cout << "size" <<  size << endl;
-  std::cout << "n" <<  n << endl;
+  // std::cout << "size" <<  size << endl;
+  // std::cout << "n" <<  n << endl;
 
 
 }
@@ -1164,10 +1183,10 @@ void poisson_blend_add (uint_fast32_t *pixels, uint_fast32_t *clone, Options *op
       u32c = pixels[index];
 
       u32c = (255 << 24) | ((uint_fast8_t)(((u32c >> 16)&0xFF) + (avgB / 9))) << 16 | ((uint_fast8_t)(((u32c >>  8)&0xFF) + (avgG / 9))) <<  8 | ((uint_fast8_t)((u32c &0xFF) + (avgR / 9)));
-      std::cout << "norm: " << u32c << std::endl;
+      // std::cout << "norm: " << u32c << std::endl;
 
       u32c = (255 << 24) | (((u32c >> 16)&0xFF) + (avgB / 9)) << 16 | (((u32c >>  8)&0xFF) + (avgG / 9)) <<  8 | ((u32c &0xFF) + (avgR / 9));
-      std::cout << "no_conversion: " << u32c << std::endl;
+      // std::cout << "no_conversion: " << u32c << std::endl;
       clone[index] = u32c;
       // clone[index] = (255 << 24) | 
       //   ((uint_fast8_t)(((u32c >> 16)&0xFF) + (avgB / 9))) << 16 | 
@@ -2805,10 +2824,10 @@ void outtacircle (uint_fast32_t *pixels, uint_fast32_t *clone, Options *opts)
   scy = (size_t)(size/2);
   std::vector<uint_fast32_t> shape ( size * size);
   if (size * size > length || size == 0) size = 1;
-  std::cout << "Size:   " << size << std::endl;
-  std::cout << "Xspace: " << (uint_least32_t)xspace << std::endl;
-  std::cout << "Yspace: " << (uint_least32_t)yspace << std::endl;
-  std::cout << "Length: " << (uint_least32_t)length << std::endl;
+  // std::cout << "Size:   " << size << std::endl;
+  // std::cout << "Xspace: " << (uint_least32_t)xspace << std::endl;
+  // std::cout << "Yspace: " << (uint_least32_t)yspace << std::endl;
+  // std::cout << "Length: " << (uint_least32_t)length << std::endl;
 
   for (x = 0; (x+size) < h; x+=size) {
     for (y = 0; (y+size) < w; y+=size) {
@@ -3725,7 +3744,7 @@ void getParametersFromNode(v8::Local<v8::Array> fullGStack, Options *stack)
   v8::Local<v8::Object> instructions;
   v8::Local<v8::Number> num;
   for (std::size_t i = 0; i < fullGStack->Length(); /*runTimes;*/   ++i) {
-    std::cout << "its on run # " << i << std::endl;
+    // std::cout << "its on run # " << i << std::endl;
     if(fullGStack->IsObject()) {
       val = fullGStack->Get(i);
       instructions = val.As<v8::Object>();
@@ -3738,7 +3757,7 @@ void getParametersFromNode(v8::Local<v8::Array> fullGStack, Options *stack)
       num = effect.ToLocalChecked().As<v8::Number>();
   
       char intEffect = num->NumberValue();
-      std::cout << "Effect is " << (int)intEffect << std::endl;
+      // std::cout << "Effect is " << (int)intEffect << std::endl;
 
       stack[i].effect = intEffect;
 

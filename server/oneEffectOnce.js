@@ -21,135 +21,12 @@ glitcher.UseFilename(file, pngFile, stack, function() {
 
 
 
-// function createObject(order) {
-//   // var Emap  = "andefghonpswxyzpABCD";
-//   var Emap  = "abcdefgjklmswxyzABCD"; // gif mode
-//   var Chmap = "12457";
-//   var obj = {};
-//   var number = Math.floor(Math.random() * (Emap.length-1));
-//   // console.log(number)
-//   obj.effect = Emap[number].charCodeAt();
-//   obj.order = ( order === 0) ? 1 : 0;
-//   obj.channel = parseInt(Chmap[Math.round(Math.random() * Chmap.length-1)], 10);
-//   obj.threshold = Math.floor(Math.random() * 255) + 1;
-//   obj.depth  = Math.random() * 2.0 + 0.1;
-//   obj.xspace = Math.round(Math.random() * 20) + 1;
-//   obj.yspace = Math.round(Math.random() * 20) + 1;
-//   obj.stroke = Math.round(Math.random() * 200) + 1;
-//   obj.weight = Math.round(Math.random() * 200) + 1;
-//   obj.color = 0xFF1166FF;
-  
-//   return obj;
-// }
-
-
-// function verifyObject(object) {
-//    // object.effect    = (object.effect !== null ) ? 'g' : object.effect;
-//    object.order     = (object.order !== null ) ? '1' : object.order;
-//    object.channel   = (object.channel !== null || object.channel > 7 ) ? 0 : object.channel;
-//    object.threshold = (object.threshold !== null || object.threshold > 100 ) ? 50 : object.threshold;
-//    object.depth     = (object.depth !== null || object.depth > 2.0 || object.depth < 0.5 ) ? 1.0 : object.depth;
-//    object.xspace    = (object.xspace < 1 || object.xspace > 20) ? 1 : object.xspace;
-//    object.yspace    = (object.yspace < 1 || object.yspace > 20) ? 1 : object.yspace;
-//    return object;
-// }
-
-
-
-
-// // var dir = path.dirname(process.argv[2]);
-// var pp = path.parse(process.argv[2]);
-
-// var queue = [];
-// var running = false;
-
-// fs.readdir(process.argv[2], function(err, files) {
-//   // if (err) console.log('err', err);
-//   var fl = files.length;
-//   // console.log(files, fl);
-//   for (var i = 0; i < fl; ++i) {
-//     var eachFile = pp.dir + "/" + pp.base + "/" + files[i];
-//     var fmtObj = path.parse(eachFile);
-//     var curdir = process.argv[2] + fmtObj.name;
-
-//     // make sure that every file is a jpg/png/tif before continuing;
-//     if ( !fmtObj.ext.match(/jpg|jpeg|tif|tiff|png/gi) ) {
-//       // console.log("Skipping: ", fmtObj); 
-//       continue;
-//     } 
-//    queue.push([curdir, eachFile]);
-//   }
-//   runTheQueue();
-// });
-
-
-
-
-// function runTheQueue () {
-//   if (!queue.length) return;
-//   if (running) setTimeout(runTheQueue, 100);
-//   else {
-//   var x = queue.pop();
-//   running = true;
-//   runTheGlitchies(x[0], x[1]);
-//   setTimeout(runTheQueue, 100);
-    
-//   }
-// }
-  
-
-
-// function runTheGlitchies(curdir, eachFile) {
-//   fs.mkdir(curdir, function(err) { 
-//     // if (err) console.log('Folder existed');
-//       glitchSomeFiles(eachFile, curdir);
-//       running = false;
-//   })
-// }
-
-
-// function glitchSomeFiles(filename,base) {
-//   var randomFileString = recursiveFileName(base);
-//   var pngFile = randomFileString + extension;
-//   // var tiffFile = randomFileString +'.tif';
-//   var stack = packArray();
-
-//   // /Users/jaguil1/Desktop/glitchme/ZackKaminski.jpg
-//   // console.log("EACHFILE::", filename)
-
-//   // Make sure objects are cool
-//   // console.log(stack);
-
-//   // Signature: filename(string), outfile(string),  options(array[objects]), callback(function)
-//   glitcher.UseFilename(filename, pngFile, stack, function() {
-//     console.log("Done with %s!", pngFile, filename);
-//   });
-// }
-
-
 
 function packArray() {
   var stack = [];
-  // var effectOrder = ['s','p', 'w', 'A', 'B'];
-  // var combineOrder = [3, 2, 0, 1, 0];
-  // var effectOrder = ['p'];
-  // var combineOrder = [0];
-
-  // var effectOrder = ['s','v', 'z', 'd', 'y', 'C'];
-  // var combineOrder = [2, 0, 0, 0 , 0, 0];
-
-  // var combineOrder = [  2,   0, 1, 0  ];
-  // var effectOrder =  [ 'p', 'B', 'A', 'C' ];
 
   var combineOrder = [ 0,1,0 ];
   var effectOrder =  [ 'g', 's','X' ];
-
-
-  // var combineOrder = [ 1,0,1,0,1,0,1,0 ];
-  // var effectOrder =  [ 's','V', 's', 'A', 'p', 'X', 'x','V' ];  
-  // var combineOrder = [ 0 ];
-  // var effectOrder = [ 'h' ];
-
 
   if (effectOrder.length != combineOrder.length) {
     throw new SyntaxError("Impossible number of effects");
@@ -169,35 +46,29 @@ function packArray() {
     stack[i].color = 0xFF1166FF;
   }
 
-  // stack.forEach(function(v,i) {
-    
-  //   v.effect = effectOrder[i].charCodeAt();
-  //   v.order = combineOrder[i];
-  //   v.channel = 0;
-  //   v.threshold = 100;
-  //   v.depth = 1.0;
-  //   v.xspace = 5;
-  //   v.yspace = 5;
-  //   v.stroke = 5;
-  //   v.weight = 5;
-  //   v.color = 0xFF1166FF;
-  // });
 
   return stack;
 }
 
 
-
-// function packArray () {
-//   var stack = [], order = 0;
-//   var runNumber = parseInt(Math.round(Math.random() * 10), 10) + 1;
-//   for (var i = 0; i < runNumber; ++i) {
-//     stack.push(createObject(order));
-//     // stack.push(verifyObject(createObject(order)));
-//     order  = (order == 0) ? 1 : 0;
-//   }
-//   return stack;
-// }
+  function verifyOptions(obj) {
+    obj.effect = (obj.effect !== null ) ? 'g' : obj.effect;
+    obj.order  = (obj.order !== null ) ? '1' : obj.order;
+    obj.channel = ( !(obj.channel < 8) || !(obj.channel > 0) ) ? 0 : obj.channel;
+    obj.threshold = ( !(obj.threshold > 0) || !(obj.threshold < 256) ) ? 50 : obj.threshold;     
+    obj.depth = ( !(obj.depth > 0) || !(obj.depth < 256) ) ? 1.0 : obj.depth;     
+    obj.xspace = ( !(obj.xspace > 0) || !(obj.xspace < 256) ) ? 50 : obj.xspace;     
+    obj.yspace = ( !(obj.yspace > 0) || !(obj.yspace < 256) ) ? 50 : obj.yspace;     
+    obj.weight = ( !(obj.weight > 0) || !(obj.weight < 256) ) ? 50 : obj.weight;     
+    obj.stroke = ( !(obj.stroke > 0) || !(obj.stroke < 256) ) ? 50 : obj.stroke;     
+    if (isLSB()) {
+      // LSB architecture
+      obj.color =  ( !(obj.color > 0xFF000000) || !(obj.color < 0xFFFFFFFF) ) ? 0xFFFFFFFF : obj.color;
+    } else {
+      // MSB architecture
+      obj.color =  ( !(obj.color > 0x000000FF) || !(obj.color < 0xFFFFFFFF) ) ? 0xFFFFFFFF : obj.color;     
+    }
+  }
 
 
 
