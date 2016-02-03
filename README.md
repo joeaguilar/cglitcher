@@ -14,7 +14,7 @@ Several files are included under server
 2. directoryglitcherrandom.js
 3. oneimageglitcher.js
 4. socketioglitcher.js
-5. utils.js -> Dont use this
+5. utils.js _Dont use this_
 
 
 directoryglitcher takes the arguments: `node /path/to/directoryglitcher.js /path/to/directory/ [effectargs]`
